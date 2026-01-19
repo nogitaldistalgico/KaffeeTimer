@@ -42,11 +42,21 @@ let manualTimer = new EspressoTimer({
 });
 
 let audioMonitor = new AudioMonitor({
-    threshold: 0.03, // More sensitive
-    silenceDelay: 1500, // Wait 1.5s before declaring silence
+    threshold: 0.01, // Extremely sensitive
+    silenceDelay: 2000, // 2s bridge
     onStatusChange: (status) => handleAudioStatus(status),
-    onAudioData: (rms) => updateVisualizer(rms)
+    onAudioData: (rms) => {
+        updateVisualizer(rms);
+        updateDebug(rms);
+    }
 });
+
+function updateDebug(rms) {
+    const debugEl = document.getElementById('debug-info');
+    if (debugEl) {
+        debugEl.innerHTML = `RMS: ${rms.toFixed(4)}<br>Thresh: ${audioMonitor.threshold}<br>State: ${smartTimer.state}<br>Noisy: ${audioMonitor.isNoisy}`;
+    }
+}
 
 // Event Listeners
 modeBtns.forEach(btn => {
