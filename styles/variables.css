@@ -1,0 +1,61 @@
+:root {
+  /* Colors - Warm Cozy Coffee Shop */
+  --color-bg: #F5F2ED;
+  --color-text-primary: #2B2621;
+  --color-text-secondary: #736659;
+  --color-accent: #D98C40;
+  --color-success: #599959;
+  --color-warning: #E6B34D;
+  --color-error: #CC4D4D;
+
+  /* Typography */
+  --font-family-base: system-ui, -apple-system, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-medium: 500;
+  --font-weight-heavy: 800;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* UI Elements */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+  
+  --shadow-soft: 0 4px 12px rgba(43, 38, 33, 0.08);
+  --shadow-hover: 0 8px 16px rgba(43, 38, 33, 0.12);
+  
+  --transition-fast: 0.2s ease-out;
+  --transition-normal: 0.3s ease-out;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-heavy);
+  color: var(--color-text-primary);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}

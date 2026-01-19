@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Espresso Timer</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <button id="settings-btn" class="icon-btn" aria-label="Einstellungen">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="smart">Smart</button>
+                <button class="mode-btn" data-mode="manual">Manuell</button>
+            </div>
+            <div class="header-spacer"></div> <!-- Balance the settings button -->
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Smart Mode View -->
+            <section id="view-smart" class="view-section active">
+                <div class="status-indicator">
+                    <div id="visualizer-orb" class="orb idle"></div>
+                    <h2 id="status-text">Bereithalten</h2>
+                </div>
+
+                <div class="timer-display">
+                    <span id="smart-time-display">00.0</span> <span class="unit">SEC</span>
+                </div>
+
+                <div class="controls">
+                    <button id="smart-action-btn" class="primary-btn">Starten</button>
+                </div>
+            </section>
+
+            <!-- Manual Mode View -->
+            <section id="view-manual" class="view-section hidden">
+                <div class="manual-timer-display">
+                    <span id="manual-time-display">00.0</span>
+                </div>
+                <div class="manual-controls">
+                    <button id="manual-reset-btn" class="secondary-btn">Reset</button>
+                    <button id="manual-toggle-btn" class="primary-btn">Start</button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Einstellungen</h3>
+                    <button id="close-settings-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-item">
+                        <label>Zielzeit (Sekunden)</label>
+                        <div class="stepper">
+                            <button class="stepper-btn" data-action="decrease" data-target="target-time">-</button>
+                            <span id="target-time-val">25</span>
+                            <button class="stepper-btn" data-action="increase" data-target="target-time">+</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Start-Verzögerung</label>
+                        <div class="stepper">
+                            <button class="stepper-btn" data-action="decrease" data-target="start-offset">-</button>
+                            <span id="start-offset-val">0.0s</span>
+                            <button class="stepper-btn" data-action="increase" data-target="start-offset">+</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>End-Korrektur</label>
+                        <div class="stepper">
+                            <button class="stepper-btn" data-action="decrease" data-target="end-offset">-</button>
+                            <span id="end-offset-val">0.0s</span>
+                            <button class="stepper-btn" data-action="increase" data-target="end-offset">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/timer-logic.js" type="module"></script>
+    <script src="scripts/audio-monitor.js" type="module"></script>
+    <script src="scripts/app.js" type="module"></script>
+</body>
+
+</html>

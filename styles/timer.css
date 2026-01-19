@@ -1,0 +1,101 @@
+/* Timer & Visualizer Styles */
+
+/* Smart View Specifics */
+.status-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+}
+
+#status-text {
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-light);
+    min-height: 2rem;
+    /* Reserve space */
+}
+
+/* The Orb - Audio Reactive Element */
+.orb {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    /* Fallback */
+    background: radial-gradient(circle at 30% 30%, #E6B34D, #D98C40);
+    box-shadow: 0 10px 30px rgba(217, 140, 64, 0.4);
+    transition: transform 0.1s linear, box-shadow 0.1s linear;
+    position: relative;
+}
+
+/* Orb States */
+.orb.idle {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+.orb.listening {
+    /* Will be handled by JS scaling */
+    filter: brightness(1.1);
+}
+
+.orb.running {
+    background: radial-gradient(circle at 30% 30%, #FF6B6B, #CC4D4D);
+    /* Red-ish for running? Or keep orange? Request said 'Surrealist'. Lets keep warm. */
+    background: radial-gradient(circle at 30% 30%, #E6B34D, #D98C40);
+}
+
+.orb.finished {
+    background: radial-gradient(circle at 30% 30%, #76C276, #599959);
+    /* Green */
+    box-shadow: 0 10px 30px rgba(89, 153, 89, 0.4);
+}
+
+@keyframes breathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 30px rgba(217, 140, 64, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(217, 140, 64, 0.6);
+    }
+}
+
+/* Timer Digits */
+.timer-display {
+    font-size: 5rem;
+    font-weight: var(--font-weight-heavy);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: var(--spacing-2xl);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.timer-display .unit {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    transform: translateY(-10px);
+}
+
+/* Manual Mode Specifics */
+.manual-timer-display {
+    font-size: 6rem;
+    font-weight: var(--font-weight-heavy);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.manual-controls {
+    display: flex;
+    gap: var(--spacing-md);
+}
