@@ -42,8 +42,8 @@ let manualTimer = new EspressoTimer({
 });
 
 let audioMonitor = new AudioMonitor({
-    threshold: 0.002, // Ultra sensitive (almost any noise triggers)
-    silenceDelay: 3000, // 3s bridge for breaks
+    threshold: 0.02, // Default: 0.02 (Slider val 20)
+    silenceDelay: 2500, // 2.5s bridge
     onStatusChange: (status) => handleAudioStatus(status),
     onAudioData: (rms) => {
         updateVisualizer(rms);
@@ -134,6 +134,20 @@ stepperBtns.forEach(btn => {
         }
     });
 });
+
+const sensitivitySlider = document.getElementById('sensitivity-slider');
+if (sensitivitySlider) {
+    sensitivitySlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value); // 1 to 100
+        document.getElementById('sensitivity-val').textContent = val;
+
+        // Map 1..100 to 0.001..0.1
+        // Logarithmic feel might be better, but linear for now:
+        // 1 -> 0.001, 100 -> 0.1
+        const newThreshold = val / 1000;
+        audioMonitor.threshold = newThreshold;
+    });
+}
 
 
 // Functions
