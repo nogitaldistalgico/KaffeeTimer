@@ -42,8 +42,8 @@ let manualTimer = new EspressoTimer({
 });
 
 let audioMonitor = new AudioMonitor({
-    threshold: 0.01, // Extremely sensitive
-    silenceDelay: 2000, // 2s bridge
+    threshold: 0.002, // Ultra sensitive (almost any noise triggers)
+    silenceDelay: 3000, // 3s bridge for breaks
     onStatusChange: (status) => handleAudioStatus(status),
     onAudioData: (rms) => {
         updateVisualizer(rms);
