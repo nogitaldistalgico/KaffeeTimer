@@ -32,13 +32,10 @@ export class AudioMonitor {
             this.analyser = this.audioContext.createAnalyser();
             this.analyser.fftSize = 256;
 
-            // Low-pass filter to isolate pump noise (usually low rumble)
-            const filter = this.audioContext.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.value = 800; // Bumped to 800Hz
+            // Low-pass filter removed. It might be attenuating too much signal.
+            // Using full spectrum now.
 
-            this.microphone.connect(filter);
-            filter.connect(this.analyser);
+            this.microphone.connect(this.analyser);
 
             this.isListening = true;
             this.hasTriggered = false;
