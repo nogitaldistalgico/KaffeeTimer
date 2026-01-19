@@ -28,7 +28,7 @@ export class AudioMonitor {
             // Low-pass filter to isolate pump noise (usually low rumble)
             const filter = this.audioContext.createBiquadFilter();
             filter.type = 'lowpass';
-            filter.frequency.value = 1000; // Cutoff around 1kHz
+            filter.frequency.value = 600; // Cutoff reduced to 600Hz to ignore cups/clinking
 
             this.microphone.connect(filter);
             filter.connect(this.analyser);
@@ -98,5 +98,9 @@ export class AudioMonitor {
         }
 
         requestAnimationFrame(this.monitorLoop.bind(this));
+    }
+
+    get isNoisy() {
+        return this.hasTriggered;
     }
 }

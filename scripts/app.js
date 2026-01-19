@@ -192,8 +192,27 @@ function handleAudioStatus(status) {
         }
     } else if (status === 'silence_detected') {
         if (smartTimer.state === 'running') {
-            smartTimer.stop();
-            // Finish handled by callback
+            // Pre-infusion Guard: If less than 6 seconds, assume it's pre-infusion or a pause.
+            // Don't stop immediately.
+            if (smartTimer.elapsedTime < 6000) {
+                console.log('Pre-infusion detected (Silence < 6s). Waiting...');
+                statusText.textContent = 'Pre-Infusion...';
+
+                // Safety check: If it stays silent for too long (e.g. +5 seconds), then stop.
+                setTimeout(() => {
+                    // Check if we are still running and audio is still silent
+                    if (smartTimer.state === 'running' && !audioMonitor.isNoisy) {
+                        // If still silent after grace period, stop it.
+                        console.log('Silence persisted. Stopping.');
+                        smartTimer.stop();
+                    } else {
+                        console.log('Noise returned or already stopped. Resuming normal op.');
+                        if (smartTimer.state === 'running') statusText.textContent = 'Bezug läuft...';
+                    }
+                }, 5000); // 5 seconds grace
+            } else {
+                smartTimer.stop();
+            }
         }
     }
 }
