@@ -190,13 +190,18 @@ async function startListening() {
     if (!result.success) {
         console.error(result.error);
         let msg = 'Mikrofon Fehler';
-        if (result.error.name === 'NotAllowedError') msg = 'Keine Berechtigung';
+        if (result.error.name === 'NotAllowedError' || result.error.name === 'PermissionDeniedError') {
+            msg = 'Keine Berechtigung';
+            alert('Mikrofon Zugriff verweigert.\n\niOS Nutzer: Bitte öffnen Sie "Einstellungen > Safari > Mikrofon" und erlauben Sie den Zugriff für diese Seite.\n\nStellen Sie sicher, dass Sie HTTPS nutzen (Github Pages).');
+        }
         else if (result.error.name === 'NotFoundError') msg = 'Kein Mikrofon gefunden';
         else if (result.error.name === 'SecurityError') msg = 'Unsicherer Kontext';
         else msg = 'Fehler: ' + result.error.message;
 
         statusText.textContent = msg;
-        alert('Mikrofon Zugriff fehlgeschlagen: ' + result.error.message + '\nBitte prüfen Sie die Browser-Berechtigungen.');
+        if (result.error.name !== 'NotAllowedError') {
+            alert('Fehler: ' + result.error.message);
+        }
 
         smartActionBtn.textContent = 'Starten';
         visualizerOrb.classList.add('idle');

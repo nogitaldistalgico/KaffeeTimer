@@ -31,15 +31,28 @@ export class AudioMonitor {
                 await this.audioContext.resume();
             }
 
-            const stream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    echoCancellation: false,
-                    noiseSuppression: false,
-                    autoGainControl: false
+            // Try with advanced constraints first (best for espresso machine)
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                });
+                this.microphone = this.audioContext.createMediaStreamSource(stream);
+            } catch (err) {
+                console.warn('Advanced audio constraints failed, trying fallback...', err);
+                // Fallback: Try basic audio (iOS might prefer this if constraints are too specific)
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    this.microphone = this.audioContext.createMediaStreamSource(stream);
+                } catch (fallbackErr) {
+                    console.error('Microphone access denied:', fallbackErr);
+                    return { success: false, error: fallbackErr };
                 }
-            });
+            }
 
-            this.microphone = this.audioContext.createMediaStreamSource(stream);
             this.analyser = this.audioContext.createAnalyser();
             this.analyser.fftSize = 256;
 
