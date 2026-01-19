@@ -37,10 +37,10 @@ export class AudioMonitor {
             this.hasTriggered = false;
             this.monitorLoop();
 
-            return true;
+            return { success: true };
         } catch (err) {
             console.error('Microphone access denied:', err);
-            return false;
+            return { success: false, error: err };
         }
     }
 

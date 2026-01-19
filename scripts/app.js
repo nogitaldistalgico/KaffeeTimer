@@ -157,9 +157,18 @@ async function startListening() {
     visualizerOrb.classList.remove('idle');
     visualizerOrb.classList.add('listening');
 
-    const success = await audioMonitor.start();
-    if (!success) {
-        statusText.textContent = 'Mikrofon Fehler';
+    const result = await audioMonitor.start();
+    if (!result.success) {
+        console.error(result.error);
+        let msg = 'Mikrofon Fehler';
+        if (result.error.name === 'NotAllowedError') msg = 'Keine Berechtigung';
+        else if (result.error.name === 'NotFoundError') msg = 'Kein Mikrofon gefunden';
+        else if (result.error.name === 'SecurityError') msg = 'Unsicherer Kontext';
+        else msg = 'Fehler: ' + result.error.message;
+
+        statusText.textContent = msg;
+        alert('Mikrofon Zugriff fehlgeschlagen: ' + result.error.message + '\nBitte prüfen Sie die Browser-Berechtigungen.');
+
         smartActionBtn.textContent = 'Starten';
         visualizerOrb.classList.add('idle');
     }
