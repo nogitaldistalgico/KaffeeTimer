@@ -6,8 +6,9 @@ export class AudioMonitor {
         this.isListening = false;
 
         // Configuration
-        this.threshold = options.threshold || 0.08; // 0.0 to 1.0 (RMS)
-        this.silenceDelay = options.silenceDelay || 500; // ms to wait before declaring silence
+        // Configuration
+        this.threshold = options.threshold || 0.03; // Lowered to 0.03 for filtered audio
+        this.silenceDelay = options.silenceDelay || 1500; // Increased to 1.5s to bridge gaps
         this.callback = options.onStatusChange || (() => { });
         this.visualizerCallback = options.onAudioData || (() => { });
 

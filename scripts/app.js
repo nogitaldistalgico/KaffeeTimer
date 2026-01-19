@@ -42,7 +42,8 @@ let manualTimer = new EspressoTimer({
 });
 
 let audioMonitor = new AudioMonitor({
-    threshold: 0.08,
+    threshold: 0.03, // More sensitive
+    silenceDelay: 1500, // Wait 1.5s before declaring silence
     onStatusChange: (status) => handleAudioStatus(status),
     onAudioData: (rms) => updateVisualizer(rms)
 });
