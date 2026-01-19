@@ -18,8 +18,19 @@ export class AudioMonitor {
     }
 
     async start() {
+        if (!window.isSecureContext) {
+            console.error('Context is not secure (HTTPS required).');
+            return { success: false, error: { name: 'SecurityError', message: 'HTTPS required for microphone.' } };
+        }
+
         try {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Resume context if suspended (iOS requirement)
+            if (this.audioContext.state === 'suspended') {
+                await this.audioContext.resume();
+            }
+
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
                     echoCancellation: false,

@@ -24,10 +24,14 @@ const manualResetBtn = document.getElementById('manual-reset-btn');
 const stepperBtns = document.querySelectorAll('.stepper-btn');
 const targetTimeVal = document.getElementById('target-time-val');
 const startOffsetVal = document.getElementById('start-offset-val');
-// const endOffsetVal is dynamically queried or add here if preferred, 
 // strictly speaking I used dynamic query in previous step but simpler to add here if I want consistency.
 // actually in previous step I did: const endValEl = document.getElementById('end-offset-val');
 // So I don't technically need this, but good for completeness.
+
+// Security Check for Mobile/Network use
+if (!window.isSecureContext) {
+    alert('Warnung: Diese Seite ist nicht sicher (kein HTTPS). Das Mikrofon wird auf dem Smartphone wahrscheinlich NICHT funktionieren.\n\nBitte nutzen Sie "https://" oder "localhost".');
+}
 
 // State
 let currentMode = 'smart';
