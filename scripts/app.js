@@ -43,7 +43,7 @@ let manualTimer = new EspressoTimer({
 
 let audioMonitor = new AudioMonitor({
     threshold: 0.02, // Default: 0.02 (Slider val 20)
-    silenceDelay: 2500, // 2.5s bridge
+    silenceDelay: 500, // 0.5s as requested by user
     onStatusChange: (status) => handleAudioStatus(status),
     onAudioData: (rms) => {
         updateVisualizer(rms);
@@ -229,14 +229,15 @@ function handleAudioStatus(status) {
                     if (smartTimer.state === 'running' && !audioMonitor.isNoisy) {
                         // If still silent after grace period, stop it.
                         console.log('Silence persisted. Stopping.');
-                        smartTimer.stop();
+                        smartTimer.stop(500);
                     } else {
                         console.log('Noise returned or already stopped. Resuming normal op.');
                         if (smartTimer.state === 'running') statusText.textContent = 'Bezug läuft...';
                     }
-                }, 5000); // 5 seconds grace
+                }, 5000);
             } else {
-                smartTimer.stop();
+                // Stop with 500ms retroactive adjustment because trigger happened 500ms after silence
+                smartTimer.stop(500);
             }
         }
     }

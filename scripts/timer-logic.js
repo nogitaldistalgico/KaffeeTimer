@@ -4,9 +4,9 @@ export class EspressoTimer {
         this.elapsedTime = 0;
         this.intervalId = null;
         this.state = 'idle'; // idle, running, finished
-        this.onTick = options.onTick || (() => {});
-        this.onFinish = options.onFinish || (() => {});
-        
+        this.onTick = options.onTick || (() => { });
+        this.onFinish = options.onFinish || (() => { });
+
         // Settings
         this.startOffset = options.startOffset || 0; // seconds
         this.endOffset = options.endOffset || 0; // seconds
@@ -27,24 +27,24 @@ export class EspressoTimer {
         // If offset is -2.0s, we start at 0 and count up? No, usually "start offset" in coffee apps means "Pre-infusion time correction".
         // Let's stick to: effectiveStartTime = Date.now() + (this.startOffset * 1000);
         // If offset is -2.0s, effective start was 2 seconds ago. So timer reads 2.0s immediately.
-        
-        this.startTime = Date.now() - (this.startOffset * 1000); 
-        
+
+        this.startTime = Date.now() - (this.startOffset * 1000);
+
         this.tick();
         this.intervalId = requestAnimationFrame(this.tick.bind(this));
     }
 
     stop() {
         if (this.state !== 'running') return;
-        
+
         this.state = 'finished';
         cancelAnimationFrame(this.intervalId);
-        
+
         // Apply end offset
         // "Add user-defined seconds to final time to account for post-drip."
         // If end offset is +2.0s, we add 2 seconds to the result.
         this.elapsedTime += (this.endOffset * 1000);
-        
+
         // Provide final tick update
         this.onTick(this.formatTime(this.elapsedTime));
         this.onFinish(this.elapsedTime);
@@ -62,9 +62,9 @@ export class EspressoTimer {
 
         const now = Date.now();
         this.elapsedTime = now - this.startTime;
-        
+
         this.onTick(this.formatTime(this.elapsedTime));
-        
+
         this.intervalId = requestAnimationFrame(this.tick.bind(this));
     }
 
@@ -76,7 +76,7 @@ export class EspressoTimer {
         const seconds = Math.floor(totalSeconds);
         // Display one decimal place
         const formatted = totalSeconds.toFixed(1);
-        
+
         return {
             totalMs: time,
             formatted: formatted
